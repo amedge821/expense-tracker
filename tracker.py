@@ -1,11 +1,18 @@
-expenses = []
+import csv
 
 def add_expense(expenses):
-
     user_expense = input("Enter Expense name: ")
-    user_amount = float(input("Enter an amount: "))
+
+    try:
+        user_amount = float(input("Enter an amount: "))
+    except ValueError:
+        print("INVALID INPUT. Please enter a valid amount.")
+        return
+
     expense = {"name": user_expense, "amount": user_amount}
     expenses.append(expense)
+    save_changes(expenses)
+    
 
 def view_expenses(expenses):
     for expense in expenses:
@@ -21,7 +28,33 @@ def calculate_total(expenses):
     return total
 
 
+def load_expenses():
+    expenses = []
+    try:
+        with open('expenses.csv','r') as file:
+            reader = csv.DictReader(file)
 
+            for row in reader:
+                expense = {"name": row["name"], "amount": float(row["amount"])}
+                expenses.append(expense)
+            return expenses
+
+    except FileNotFoundError:
+        print("No previous expenses found. Starting fresh.")
+        return expenses
+
+def save_changes(expenses):
+
+    with open('expenses.csv', 'w', newline ='') as file:
+        writer = csv.DictWriter(file, fieldnames = ['name', 'amount'])
+        writer.writeheader()
+        writer.writerows(expenses)
+
+
+
+
+
+expenses = load_expenses()
 
 while True:
     print("1 - Add Expense")
@@ -43,3 +76,5 @@ while True:
         break
     else:
         print("Invalid choice. Please try again.")
+
+  
