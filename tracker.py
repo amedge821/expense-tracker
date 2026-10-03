@@ -14,6 +14,10 @@ def add_expense(expenses):
         print("INVALID INPUT. Please enter a valid amount.")
         return
 
+    if user_amount <= 0:
+        print("INVALID INPUT. Please enter a postive amount.")
+        return
+
     # Create a dictionary for the expense and append it to the expenses list
     expense = {"name": user_expense, "amount": user_amount}
     expenses.append(expense)
