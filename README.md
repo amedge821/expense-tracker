@@ -1,34 +1,67 @@
 # Expense Tracker
 
-A simple command-line expense tracker built with Python. The program allows users to add expenses, view saved expenses, and calculate total spending. Expenses are stored in a CSV file so they persist between program sessions.
+A command-line expense tracker built with Python that allows users to record expenses, view saved expenses, and calculate total spending. Expenses are stored in a CSV file so they persist between program sessions.
 
 ## Features
 
-* Add new expenses
-* View saved expenses
-* Calculate total expenses
-* Save expenses to a CSV file
-* Load previously saved expenses when the program starts
-* Handle invalid amount input without crashing
+- **Add expenses:** Enter an expense name and amount.
+- **Input validation:** Rejects empty expense names, non-numeric amounts, and zero or negative amounts.
+- **View expenses:** Display recorded expenses.
+- **Calculate total spending:** Calculate the total amount of recorded expenses.
+- **CSV persistence:** Save expenses to `expenses.csv` and load them when the program starts.
+- **Error handling:** Handles missing CSV files and skips rows with invalid expense data.
 
-## How It Works
+## Requirements
 
-When the program starts, `load_expenses()` reads existing expenses from `expenses.csv`. If the file does not exist, the program starts with an empty expense list.
-
-When a new expense is added, `save_changes()` writes the updated expense list to the CSV file.
+- Python 3
+- No external libraries required.
 
 ## How to Run
 
-Make sure Python 3 is installed, then run the program from the project directory:
+1. Clone the repository:
 
-```bash
-python3 tracker.py
-```
+   ```bash
+   git clone https://github.com/amedge821/expense-tracker.git
+   ```
 
-Follow the menu prompts to add, view, or calculate expenses.
+2. Navigate to the project directory:
+
+   ```bash
+   cd expense-tracker
+   ```
+
+3. Run the program:
+
+   ```bash
+   python3 tracker.py
+   ```
+
+## Usage
+
+Follow the command-line menu:
+
+1. Add Expense
+2. View Expenses
+3. Calculate Total Expenses
+4. Exit
+
+Enter the corresponding number to select an option. When adding an expense, provide a name and a positive numeric amount.
+
+## Data Storage
+
+Expenses are stored locally in `expenses.csv`. Previously saved expenses are loaded when the program starts, allowing records to persist between sessions.
 
 ## Technologies
 
-* Python 3
-* CSV
-* Git/GitHub
+- Python
+- CSV file handling
+- Exception handling
+- Input validation
+- Command-line interfaces
+
+## Future Improvements
+
+- Add expense categories.
+- Filter expenses by category or date.
+- Generate monthly spending summaries.
+- Add automated unit tests.
