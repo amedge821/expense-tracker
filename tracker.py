@@ -1,27 +1,43 @@
 # load the necessary libraries
 import csv
+import math
 
 # Function to add an expense
 def add_expense(expenses):
-    user_expense = input("Enter Expense name: ")
+
+    while True:
+        user_expense = input("Enter Expense name: ").strip()
+        
+        if user_expense:
+            print(f"Expense name '{user_expense}' is valid.")
+            break
+
+        else:
+            print("Invalid input. Please enter a valid expense name.")
+
 
     # Validate the user input for amount
-    try:
-        user_amount = float(input("Enter an amount: "))
+    while True:
+        try:
+            user_amount = float(input("Enter an amount: "))
 
-    # Handle invalid input for amount
-    except ValueError:
-        print("INVALID INPUT. Please enter a valid amount.")
-        return
+            if not math.isfinite(user_amount) or user_amount <= 0:
+                print("Invalid input. Please enter a positive amount.")
+                continue
+        
+            break
 
-    if user_amount <= 0:
-        print("INVALID INPUT. Please enter a postive amount.")
-        return
+        except ValueError:
+            print("Invalid input. Please enter a valid amount.")
+            continue
 
+    
     # Create a dictionary for the expense and append it to the expenses list
     expense = {"name": user_expense, "amount": user_amount}
     expenses.append(expense)
     save_changes(expenses)
+    
+    print(f"Expense '{user_expense}' of amount {user_amount} added successfully.")
     
 
 # Function to view expenses
@@ -52,10 +68,28 @@ def load_expenses():
 
     # Iterate through each row in the CSV file and create a dictionary for each expense
             for row in reader:
-                expense = {"name": row["name"], "amount": float(row["amount"])}
+                try:
+                    amount = float(row['amount'])
+
+                    if not math.isfinite(amount) or amount <= 0:
+                        print(f"Skipping expense with invalid amount: {row['amount']}")
+                        continue
+                except (ValueError, TypeError):
+                    print(f"Skipping expense with invalid amount: {row['amount']}")
+                    continue
+
+                name = row['name'].strip()
+
+
+                if not name:
+                    print("Skipping expense with empty name.")
+                    continue
+
+                expense = {"name": name, "amount": amount}
                 expenses.append(expense)
-            return expenses
-        
+
+        return expenses
+    
     # Handle the case where the expenses.csv file does not exist
     except FileNotFoundError:
         print("No previous expenses found. Starting fresh.")
